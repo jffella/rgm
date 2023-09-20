@@ -7,6 +7,7 @@ def xml_to_string(xelem):
 ###############################################################################
 class RPGameList:
     '''
+    gamelist management
     '''
     @staticmethod
     def from_path(fpath):
@@ -36,6 +37,7 @@ class RPGameList:
 
 class RPElem:
     '''
+    base element for game item container
     '''
     def __init__(self, elem, gamelist):
         self.gl = gamelist
@@ -121,12 +123,20 @@ class RPFolder(RPElem):
 
 
 class GLBrowser:
+    '''
+    allows RPGameList browsing
+    '''
     def __init__(self, gamelist):
         self.gl = gamelist
+    def get_game_images(self):
+        return [g for g in self.gl.get_game_images()]
     def get_empty_image_games(self):
         return [g for g in self.gl.get_games() if not g.image()]
     def get_empty_desc_games(self):
         return [g for g in self.gl.get_games() if not g.desc()]
     def get_hidden_games(self):
         return self.gl.get_games('./game/[@hidden="true"]')
-
+    def get_folders(self):
+        return [g for g in self.gl.get_folders()]
+    def get_games(self):
+        return [g for g in self.gl.get_games()]

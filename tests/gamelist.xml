@@ -1,0 +1,57 @@
+<gameList>
+      <game id="1" source="theGamesDB.net">
+          <path>./SimpleGame.n64</path>
+          <name>SimpleGame</name>
+          <desc>You play in a Simple Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
+          <image>./media/SimpleGame.jpg</image>
+          <rating>0.0</rating>
+          <releasedate>19970823T000000</releasedate>
+          <developer>Sony</developer>
+          <publisher>Sony</publisher>
+          <genre>Battle</genre>
+          <players>2</players>
+          <region>World</region>
+          <romtype>Original</romtype>
+      </game>
+      <game id="1" source="theGamesDB.net">
+          <path>./SimpleGame.n64</path>
+          <name>SimpleGame without image</name>
+          <desc>You play in a Simple Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
+          <rating>0.0</rating>
+          <releasedate>19970823T000000</releasedate>
+          <developer>Sony</developer>
+          <publisher>Sony</publisher>
+          <genre>Battle</genre>
+          <players>2</players>
+          <region>World</region>
+          <romtype>Original</romtype>
+      </game>
+      <game id="160" source="theGamesDB.net">
+          <path>./001 - SuperGame (Europe).n64</path>
+          <name>A very Super Game (Europe)</name>
+          <desc>You play in a Super Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
+          <image>./media/001 - SuperGame (Europe).jpg</image>
+          <rating>0.0</rating>
+          <releasedate>19970823T000000</releasedate>
+          <developer>Nintendo</developer>
+          <publisher>Nintendo</publisher>
+          <genre>Shooter</genre>
+          <players>4</players>
+          <region>Europe</region>
+          <romtype>Original</romtype>
+      </game>
+      <game id="237" source="theGamesDB.net">
+          <path>./Other SuperGame (Europe) (En,Ja,Fr,De).n64</path>
+          <name>Other Super Game (Europe) (En,Ja,Fr,De)</name>
+          <desc>You play in a Super Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
+          <image>./media/Other SuperGame (Europe) (En,Ja,Fr,De).jpg</image>
+          <rating>0.0</rating>
+          <releasedate>19980401T000000</releasedate>
+          <developer>Sega</developer>
+          <publisher>Sega</publisher>
+          <genre>Sports</genre>
+          <players>2</players>
+          <region>Europe</region>
+          <romtype>Original</romtype>
+      </game>
+</gameList>

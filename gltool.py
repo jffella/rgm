@@ -12,9 +12,32 @@ LOG_FILE = "gltool.log"
 DEFAULT_GAMELIST_FILE_NAME = 'new_gamelist.xml'
 UseConsoleOut=False
 ###############################################################################
-def log(msg):
+
+class GLHandler:
+    '''
+    Handler to execute actions on gamelists objects
+    '''
+    def __init__(self, gamelists=[]):
+        '''
+        '''
+        self.gamelists = gamelists
+
+    def mergeLeft(self):
+        '''
+        Merge lists to the left most one
+        '''
+        for l in self.gamelists:
+            self.gamelists[0].merge(l) #TODO
+
+    def mergeRight(self):
+        '''
+        Merge lists to the right most one
+        '''
+
+
+def log(msg, ERROR=False):
     with open(LOG_FILE, "a") as f:
-        f.write(msg + "\n")
+        f.write("{}{}\n".format("ERROR: " if ERROR else "", msg))
     if not UseConsoleOut: print(msg)
 
 
@@ -76,22 +99,33 @@ def complete_empty_image_path(fpath, gamelist=None):
     return gl
 
 
+def count_entry(target):
+    '''
+    Count number of specified entry in gamelist
+    '''
+    #TODO
+    log('-> TODO')
+
 def list_target(fpath, target):
+    '''
+    '''
     gl = GLBrowser(RPGameList.from_path(fpath))
     if target == 'image':
         print("\n".join([i for i in gl.get_game_images()]))
-    if target == 'game':
+    elif target == 'game':
         print(''.join(["{}\n\t{}/{} '{}'\n".format(g.name(), g.region(), g.genre(), g.path()) for g in gl.get_games()]))
-    if target == 'folder':
+    elif target == 'folder':
         print(''.join(["{}\n\t'{}' '{}'\n".format(g.name(), g.thumbnail(), g.path()) for g in gl.get_folders()]))
-    if target == 'empty_image':
+    elif target == 'empty_image':
         print("\n".join(["{}: {}".format(g.name(), g.path()) for g in gl.get_empty_image_games()]))
+    else:
+        log("Unkown type: {}".format(target), ERROR=True)
 
 
 def merge_gamelist(gamelist, keep_doublons=False):
     log("+ Merging gamelist(s) {}".format(gamelist[:0]))
     root = ET.Element('gamelist')
-    g_dic= {}
+    g_dic = {}
     #g_dic.append({k,v for })#TODO
     for glpath in gamelist:
         for f in RPGameList.from_path(glpath).get_folders():
@@ -127,19 +161,25 @@ def main ():
     parser = argparse.ArgumentParser(description='Helpful tool for managing and cleaning gamelist.xml file(s)')
     parser.add_argument('--clear', help='clear specified element', type=str, choices=['game', 'title', 'image'], default='')
     parser.add_argument('--delete', help='delete game(s) that match selector', type=str)
-    parser.add_argument('-l', '--list', help='list the game(s) matching selector', type=str, default='', nargs='?')
-    parser.add_argument('--count', help='execute the specified command', type=str, default='', nargs='?')
+    parser.add_argument('-l', '--list', help='list the element(s) matching selector', type=str, choices=['game', 'image', 'folder', 'empty_image'])
+    parser.add_argument('--count', help='count the number of occurences', type=str, default='', nargs='?')
     parser.add_argument('--repair', help='fix paths issue for games', type=str, choices=['game', 'image', 'all'], nargs='+', default='')
-    parser.add_argument('--merge', help='execute the specified command', action='store_true', default=False)
+    parser.add_argument('--merge', help='merge gamelists', action='store_true', default=False)
     parser.add_argument('-o', '--console', help='Output result on console (no disk write)', action='store_true', default=False)
     #parser.add_argument('target', help='affect the specified element', choices=['game', 'description', 'title', 'image', 'empty_image', 'folder'])
     parser.add_argument('-f', '--files', dest='gamelist', help='the gamelist.xml(s) path(s)', default='gamelist.xml', nargs='*')
     args = parser.parse_args()
     #
+    for gl in args.gamelist:
+        if not os.path.exists(gl):
+            raise Exception('Unknown path {}'.format(gl))
+
     glpath = args.gamelist[0]
     UseConsoleOut = args.console or False
     if args.list:
         list_target(glpath, args.list)
+    if args.count:
+        count_entry(args.count)
     if args.repair:
         gl = None
         if any(item in args.repair for item in ['game', 'all']):
