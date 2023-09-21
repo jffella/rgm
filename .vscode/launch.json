@@ -23,6 +23,15 @@
             "justMyCode": true
         },
         {
+            "name": "Python : GLTool check",
+            "type": "python",
+            "request": "launch",
+            "program": "gltool.py",
+            "args": ["--check", "game", "-f", "tests/gamelist.xml"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python : GLTool merge",
             "type": "python",
             "request": "launch",

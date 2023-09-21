@@ -89,7 +89,7 @@ def get_image_files_in_tree_as_map(dpath):
     return flist
 
 
-def complete_empty_image_path(fpath, gamelist=None):
+def complete_empty_image_path(fpath, gamelist=None, repair=False):
     log("+ Complete missing game images on {}".format(fpath))
     #get image paths from disk
     #FIXME: image path should be relative to game path: not the case here,
@@ -172,6 +172,7 @@ def check_missing_games(glpath, gamelist=None):
 def main ():
     global UseConsoleOut
     parser = argparse.ArgumentParser(description='Helpful tool for managing and cleaning gamelist.xml file(s)')
+    parser.add_argument('--check', help='clear specified element', type=str, choices=['game', 'title', 'image'], default='')
     parser.add_argument('--clear', help='clear specified element', type=str, choices=['game', 'title', 'image'], default='')
     parser.add_argument('--delete', help='delete game(s) that match selector', type=str)
     parser.add_argument('-l', '--list', help='list the element(s) matching selector', type=str, choices=['game', 'image', 'folder', 'empty_image'])
@@ -187,22 +188,27 @@ def main ():
         if not os.path.exists(gl):
             raise Exception('Unknown path {}'.format(gl))
 
-    glpath = args.gamelist[0]
+    glpaths = args.gamelist
     UseConsoleOut = args.console or False
     if args.list:
-        list_target(glpath, args.list)
+        list_target(glpaths[0], args.list)
     if args.count:
         count_entry(args.count)
-    if args.repair:
+    if args.repair or args.check:
         gl = None
-        if any(item in args.repair for item in ['game', 'all']):
-            gl = check_missing_games(glpath, gamelist=gl)
-        if any(item in args.repair for item in ['image', 'all']):
-            gl = complete_empty_image_path(glpath, gamelist=gl)
-        if UseConsoleOut:
-            print_file(gl)
-        else: #write output new file
-            create_file(gl, glpath)
+        lookup_type = args.repair or args.check
+        # loop gamelist file(s)
+        for fpath in glpaths:
+            if any(item in lookup_type for item in ['game', 'all']):
+                gl = check_missing_games(fpath)
+            elif any(item in gl for item in ['image', 'all']):
+                gl = complete_empty_image_path(fpath, repair=args.repair is not None)
+        # repair only
+        if args.repair:
+            if UseConsoleOut:
+                print_file(gl)
+            else: # write output new file
+                create_file(gl, glpaths[0])
     if args.merge:
         gl = merge_gamelist(args.gamelist, UseConsoleOut)
         if UseConsoleOut:
