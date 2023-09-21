@@ -11,6 +11,7 @@ from shutil import copyfile
 LOG_FILE = "gltool.log"
 DEFAULT_GAMELIST_FILE_NAME = 'new_gamelist.xml'
 UseConsoleOut=False
+ROOT_NAME='gameList'
 ###############################################################################
 
 class GLHandler:
@@ -57,6 +58,9 @@ def create_file_bak(fpath):
 
 
 def print_file(gamelist):
+    '''
+    print file content on output
+    '''
     print(gamelist.to_xml())
 
 
@@ -66,6 +70,9 @@ def create_file(gamelist, fpath, backup=True):
     log("+ Wrote gamelist in {}".format(fpath))
 
 def get_image_files_in_tree(dpath):
+    '''
+    find all image files in specified tree path and return a list
+    '''
     flist = []
     for (rep, subreps, files) in walk(dpath):
         flist.extend([os.path.join(rep, f).replace('\\','/') for f in files if f.endswith('.png')])
@@ -73,6 +80,9 @@ def get_image_files_in_tree(dpath):
 
 
 def get_image_files_in_tree_as_map(dpath):
+    '''
+    find all image files in specified tree path and return a map
+    '''
     flist = {}
     for (rep, subreps, files) in walk(dpath):
         flist.update({f[:-4]:os.path.join(rep, f).replace('\\','/') for f in files if f.endswith('.png')})
@@ -123,8 +133,11 @@ def list_target(fpath, target):
 
 
 def merge_gamelist(gamelist, keep_doublons=False):
+    '''
+    merge many gamelists in one and return it
+    '''
     log("+ Merging gamelist(s) {}".format(gamelist[:0]))
-    root = ET.Element('gamelist')
+    root = ET.Element(ROOT_NAME)
     g_dic = {}
     #g_dic.append({k,v for })#TODO
     for glpath in gamelist:
@@ -133,8 +146,8 @@ def merge_gamelist(gamelist, keep_doublons=False):
         for g in RPGameList.from_path(glpath).get_games():
             g_dic[g.path()] = g
 
-    for (k,v) in g_dic:
-        ET.SubElement(root, v)
+    for k,v in g_dic.items():
+        root.append(v.el)
         
     return RPGameList(root)
 
@@ -142,7 +155,7 @@ def merge_gamelist(gamelist, keep_doublons=False):
 def check_missing_games(glpath, gamelist=None):
     log("+ Check missing game paths on {}".format(glpath))
     pathdir = os.path.dirname(glpath)
-    root = ET.Element('gamelist')
+    root = ET.Element(ROOT_NAME)
     g_dic= {}
     gl = gamelist or RPGameList.from_path(glpath)
     glg = gl.get_games()
@@ -167,7 +180,7 @@ def main ():
     parser.add_argument('--merge', help='merge gamelists', action='store_true', default=False)
     parser.add_argument('-o', '--console', help='Output result on console (no disk write)', action='store_true', default=False)
     #parser.add_argument('target', help='affect the specified element', choices=['game', 'description', 'title', 'image', 'empty_image', 'folder'])
-    parser.add_argument('-f', '--files', dest='gamelist', help='the gamelist.xml(s) path(s)', default='gamelist.xml', nargs='*')
+    parser.add_argument('-f', '--files', dest='gamelist', help='a list of gamelist.xml(s) path(s)', default='gamelist.xml', nargs='*')
     args = parser.parse_args()
     #
     for gl in args.gamelist:
@@ -186,14 +199,16 @@ def main ():
             gl = check_missing_games(glpath, gamelist=gl)
         if any(item in args.repair for item in ['image', 'all']):
             gl = complete_empty_image_path(glpath, gamelist=gl)
-        #write output new file
+        if UseConsoleOut:
+            print_file(gl)
+        else: #write output new file
+            create_file(gl, glpath)
+    if args.merge:
+        gl = merge_gamelist(args.gamelist, UseConsoleOut)
         if UseConsoleOut:
             print_file(gl)
         else:
-            create_file(gl, glpath)
-    if args.merge:
-        gl = merge_gamelist(args.gamelist)
-        gl.write(out_gl_file_name())
+            gl.write(out_gl_file_name())
 
 ###
 if __name__ == "__main__":

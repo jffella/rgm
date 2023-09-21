@@ -1,9 +1,9 @@
 import xml.etree.ElementTree as ET
-
+#from lxml import etree as ET
 ###############################################################################
 def xml_to_string(xelem):
-    #return ET.tostring(xelem, encoding='utf-8', xml_declaration=True).decode('utf-8')
-    return ET.tostring(xelem, xml_declaration=True).decode('utf8')
+#    return ET.tostring(xelem, pretty_print=True, xml_declaration=True, encoding='unicode')
+    return ET.tostring(xelem, encoding='unicode')
 ###############################################################################
 class RPGameList:
     '''
@@ -37,7 +37,7 @@ class RPGameList:
 
 class RPElem:
     '''
-    base element for game item container
+    base element accessor for game item container. Encapsulates the XML Element
     '''
     def __init__(self, elem, gamelist):
         self.gl = gamelist
