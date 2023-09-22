@@ -37,12 +37,18 @@ class GLHandler:
 
 
 def log(msg, ERROR=False):
+    '''
+    log info from program actions
+    '''
     with open(LOG_FILE, "a") as f:
         f.write("{}{}\n".format("ERROR: " if ERROR else "", msg))
     if not UseConsoleOut: print(msg)
 
 
 def out_gl_file_name(name=None):
+    '''
+    return a name for result output file
+    '''
     if name: 
         return name + '.new'
     else:
@@ -50,6 +56,9 @@ def out_gl_file_name(name=None):
 
 
 def create_file_bak(fpath):
+    '''
+    create file backup before write
+    '''
     fnewpathExt = datetime.now().strftime('.%d-%m-%y_%H-%M-%S')
     fnewpath = fpath + fnewpathExt
     #copyfile(fpath, fnewpath)
@@ -65,6 +74,9 @@ def print_file(gamelist):
 
 
 def create_file(gamelist, fpath, backup=True):
+    '''
+    create a new file from gamelist. Backup existing one when backup=True 
+    '''
     if backup: create_file_bak(fpath)
     gamelist.write(fpath)
     log("+ Wrote gamelist in {}".format(fpath))
@@ -120,6 +132,12 @@ def count_entry(target):
 
 def list_target(fpath, target):
     '''
+    list entries from specified 'target' value.
+
+    * image : list all images
+    * games : list all game names with path
+    * folder: list all folders
+    * empty_image: list all specified games without images
     '''
     gl = GLBrowser(RPGameList.from_path(fpath))
     if target == 'image':
@@ -136,7 +154,7 @@ def list_target(fpath, target):
 
 def merge_gamelist(gamelist, keep_doublons=False):
     '''
-    merge many gamelists in one and return it
+    merge many gamelist in one. create gamelist objects from param paths and return a new gamelist object
     '''
     log("+ Merging gamelist(s) {}".format(gamelist[:0]))
     root = ET.Element(ROOT_NAME)
@@ -156,6 +174,9 @@ def merge_gamelist(gamelist, keep_doublons=False):
 
 
 def check_missing_games(glpath, gamelist=None):
+    '''
+    test missing rom's game entries in a gamelist and purge it from them
+    '''
     log("+ Check missing game paths on {}".format(glpath))
     pathdir = os.path.dirname(glpath)
     root = ET.Element(ROOT_NAME)
@@ -166,7 +187,7 @@ def check_missing_games(glpath, gamelist=None):
     for g in glg:
         gpath = os.path.join(pathdir, g.path())
         if not os.path.exists(gpath):
-            log("Missing ROM file for game {}. Declared path: {}".format(g.name(), g.path()))
+            log("Missing ROM file for game {}. Tested: [{}], Declared: [{}]".format(g.name(), gpath, g.path()))
             g.delete()
     #
     return gl

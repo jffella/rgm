@@ -1,0 +1,30 @@
+<gameList>
+    <game id="100" source="theGamesDB.net">
+        <path>../../tests/resources/ffight.zip</path>
+        <name>Final Fight (World)</name>
+        <desc>Blah blah blah.  Blah blah blah.</desc>
+        <image>../../tests/resources/ffight.png</image>
+        <rating>1.0</rating>
+        <releasedate>19970823T000000</releasedate>
+        <developer>Capcom</developer>
+        <publisher>Capcom</publisher>
+        <genre>Beatemup</genre>
+        <players>2</players>
+        <region>World</region>
+        <romtype>Original</romtype>
+    </game>
+    <game id="200" source="theGamesDB.net">
+        <path>../../tests/resources/ffight2.zip</path>
+        <name>Final Fight 2 (Japan)</name>
+        <desc>Blah blah blah.  Blah blah blah.</desc>
+        <image>../../tests/resources/ffight2.png</image>
+        <rating>1.0</rating>
+        <releasedate>19980823T000000</releasedate>
+        <developer>Capcom</developer>
+        <publisher>Capcom</publisher>
+        <genre>Beatemup</genre>
+        <players>3</players>
+        <region>Japan</region>
+        <romtype>Original</romtype>
+    </game>
+</gameList>

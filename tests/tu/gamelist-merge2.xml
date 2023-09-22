@@ -1,0 +1,20 @@
+<gameList>
+    <folder>
+        <path>mame</path>
+        <name>MAME</name>
+    </folder>
+    <game id="100" source="theGamesDB.net">
+        <path>mame/ffight2.zip</path>
+        <name>Final Fight 2 (Japan)</name>
+        <desc>Blah blah blah.  Blah blah blah.</desc>
+        <image>./media/Final Fight 2 (Japan).jpg</image>
+        <rating>1.0</rating>
+        <releasedate>19980823T000000</releasedate>
+        <developer>Capcom</developer>
+        <publisher>Capcom</publisher>
+        <genre>Beatemup</genre>
+        <players>3</players>
+        <region>Japan</region>
+        <romtype>Original</romtype>
+    </game>
+</gameList>
