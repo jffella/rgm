@@ -69,6 +69,7 @@ def create_file(gamelist, fpath, backup=True):
     gamelist.write(fpath)
     log("+ Wrote gamelist in {}".format(fpath))
 
+
 def get_image_files_in_tree(dpath):
     '''
     find all image files in specified tree path and return a list
@@ -116,6 +117,7 @@ def count_entry(target):
     #TODO
     log('-> TODO')
 
+
 def list_target(fpath, target):
     '''
     '''
@@ -147,6 +149,7 @@ def merge_gamelist(gamelist, keep_doublons=False):
             g_dic[g.path()] = g
 
     for k,v in g_dic.items():
+        #if not keep_doublons and RPGameList.from_path(glpath).get_games_by_id(v.id()): 
         root.append(v.el)
         
     return RPGameList(root)
@@ -167,6 +170,7 @@ def check_missing_games(glpath, gamelist=None):
             g.delete()
     #
     return gl
+
 
 ###############################################################################
 def main ():
@@ -215,6 +219,7 @@ def main ():
             print_file(gl)
         else:
             gl.write(out_gl_file_name())
+
 
 ###
 if __name__ == "__main__":

@@ -7,7 +7,18 @@ def xml_to_string(xelem):
 ###############################################################################
 class RPGameList:
     '''
-    gamelist management
+    Gamelist management object. 
+    The gamelist.xml file for a system defines metadata for a system's games, such as a name, image (like a screenshot or box art), description, release date, and rating.
+    An example gamelist.xml:
+    
+    <gameList>
+        <game>
+            <path>/home/pi/ROMs/nes/mm2.nes</path>
+            <name>Mega Man 2</name>
+            <desc>Mega Man 2 is a classic NES game ...</desc>
+            <image>~/.es/media/nes/Mega Man 2-image.png</image>
+        </game>
+    </gameList>
     '''
     @staticmethod
     def from_path(fpath):
@@ -70,6 +81,9 @@ class RPElem:
     def desc(self, val=None):
         if val: self.set_el_text('desc', val)
         return self.get_el_text('desc')
+    def thumbnail(self, val=None):
+        if val: self.set_el_text('thumbnail', val)
+        return self.get_el_text('thumbnail')
     def to_xml(self):
         return xml_to_string(self.el)
     def delete(self):
@@ -78,12 +92,16 @@ class RPElem:
         return self.to_xml()
 
 
+class RPFolder(RPElem):
+    '''
+    <folder>
+    '''
+
+
 class RPGame(RPElem):
     '''
+    <game>
     '''
-    def thumbnail(self, val=None):
-        if val: self.set_el_text('thumbnail', val)
-        return self.get_el_text('thumbnail')
     def genre(self):
         return self.get_el_text('genre')
     def genreid(self):
@@ -116,12 +134,6 @@ class RPGame(RPElem):
         return self.image() and self.desc()
 
 
-class RPFolder(RPElem):
-    '''
-    '''
-    pass
-
-
 class GLBrowser:
     '''
     allows RPGameList browsing
@@ -140,3 +152,5 @@ class GLBrowser:
         return [g for g in self.gl.get_folders()]
     def get_games(self):
         return [g for g in self.gl.get_games()]
+    def get_games_by_id(self, id):
+        return self.gl.get_games('./game/[@id="{}"]'.format(id))

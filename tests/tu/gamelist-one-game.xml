@@ -1,0 +1,20 @@
+<gameList>
+    <folder>
+        <path>mame</path>
+        <name>MAME</name>
+    </folder>
+    <game id="100" source="theGamesDB.net">
+        <path>mame/ffight.zip</path>
+        <name>Final Fight (World)</name>
+        <desc>Blah blah blah.  Blah blah blah.</desc>
+        <image>./media/Final Fight (World).jpg</image>
+        <rating>1.0</rating>
+        <releasedate>19970823T000000</releasedate>
+        <developer>Capcom</developer>
+        <publisher>Capcom</publisher>
+        <genre>Beatemup</genre>
+        <players>2</players>
+        <region>World</region>
+        <romtype>Original</romtype>
+    </game>
+</gameList>
