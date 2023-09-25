@@ -11,7 +11,7 @@ def read_sections(config):
     print(window.get("CompressionLevel", 42))
 
 ###############################################################################
-def main ():
+def test_config ():
     config = ConfigParser()
     config['DEFAULT'] = {'Compression': True, 'CompressionLevel' : 9}
     config.read("./config.ini")
@@ -21,7 +21,3 @@ def main ():
             print("\t{} \t= {}".format(k, config[i][k]))
     #
     read_sections(config)
-
-###
-if __name__ == "__main__":
-    main()
