@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 
+
 def read_sections(config):
     system = config["System"]
     window = config["Window"]
@@ -11,9 +12,11 @@ def read_sections(config):
     print(window.get("CompressionLevel", 42))
 
 ###############################################################################
-def test_config ():
+
+
+def test_config():
     config = ConfigParser()
-    config['DEFAULT'] = {'Compression': True, 'CompressionLevel' : 9}
+    config['DEFAULT'] = {'Compression': True, 'CompressionLevel': 9}
     config.read("./config.ini")
     for i in config.sections():
         print("[{}]".format(i))
