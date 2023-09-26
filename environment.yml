@@ -1,1 +1,8 @@
-PYTHONPATH=/home/runner/work/rgm/rgm
+name: gltool-environment
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytest
+  - tk
+  - typing_extensions
