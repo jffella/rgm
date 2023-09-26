@@ -17,7 +17,7 @@ def test_from_path():
     assert gl != None and isinstance(gl, RPGameList)
     games = gl.get_games()
     assert len(games) == 1
-    ffgame: RPGame = games[0]
+    ffgame = games[0]
     assert ffgame.name() == 'Final Fight (World)'
     assert ffgame.path() == 'mame/ffight.zip'
     assert ffgame.publisher() == 'Capcom'
