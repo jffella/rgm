@@ -103,7 +103,8 @@ class RPElem:
         '''
         get xml tag content
         '''
-        return self.el.find(name).text if self.el.find(name) != None else None
+        val = self.el.find(name)
+        return val.text if val else None
 
     def set_el_text(self, name, newval):
         '''
@@ -111,6 +112,7 @@ class RPElem:
         '''
         new_el = ET.SubElement(self.el, name) if self.el.find(
             name) == None else self.el.find(name)
+        assert new_el is not None
         new_el.text = newval
 
     def get_set_el_text(self, name, newval):
