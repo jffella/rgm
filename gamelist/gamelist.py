@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+
 # from lxml import etree as ET
 ###############################################################################
 
@@ -28,15 +29,16 @@ class RPGameList:
         </game>
     </gameList>
     '''
+    root: ET.Element
     @staticmethod
-    def from_path(fpath):
+    def from_path(fpath: str):
         '''
         return RPGamelist object from str path
         '''
         tree = ET.parse(fpath)
         return RPGameList(tree.getroot(), tree)
 
-    def __init__(self, root, tree=None):
+    def __init__(self, root: ET.Element, tree=None):
         '''
         construct gamelist from XML Element
         '''
@@ -73,15 +75,18 @@ class RPGameList:
         '''
         return self.to_xml()
 
-    def write(self, fpath):
+    def write(self, fpath: str):
         '''
         transform gamelist to XML string and write it in file
         '''
         with open(fpath, 'w', newline='\n') as f:
             f.write(self.to_xml())
 
-    def delete(self, game):
-        self.root.remove(game)
+    def delete(self, gameel: ET.Element):
+        '''
+        delete a game from list
+        '''
+        self.root.remove(gameel)
 
 
 class RPElem:
@@ -89,67 +94,109 @@ class RPElem:
     base element accessor for game item container. Encapsulates the XML Element
     '''
 
-    def __init__(self, elem, gamelist: RPGameList):
+    def __init__(self, elem: ET.Element, gamelist: RPGameList):
         self.gl: RPGameList = gamelist
         self.el = elem
         self.trash = False
 
     def get_el_text(self, name):
+        '''
+        get xml tag content
+        '''
         return self.el.find(name).text if self.el.find(name) != None else None
 
     def set_el_text(self, name, newval):
+        '''
+        set xml tag content
+        '''
         new_el = ET.SubElement(self.el, name) if self.el.find(
             name) == None else self.el.find(name)
         new_el.text = newval
 
     def get_set_el_text(self, name, newval):
+        '''
+        get/set xml tag content
+        '''
         if newval:
             self.set_el_text(name, newval)
         return self.get_el_text(name)
 
     def get_el_attrib(self, name):
+        '''
+        get xml attribute content
+        '''
         return self.el.attrib[name]
 
     def set_el_attrib(self, name, newval):
+        '''
+        set xml attribute content
+        '''
         self.el.set(name, newval)
 
     def get_set_el_attrib(self, name, newval):
+        '''
+        get/set xml attribute content
+        '''
         if newval:
             self.set_el_attrib(name, newval)
         return self.get_el_attrib(name)
 
     def name(self, val=None):
+        '''
+        get/set game name
+        '''
         if val:
             self.set_el_text('name', val)
         return self.get_el_text('name')
 
     def image(self, val=None):
+        '''
+        get/set image path
+        '''
         if val:
             self.set_el_text('image', val)
         return self.get_el_text('image')
 
     def path(self, val=None):
+        '''
+        get/set game path
+        '''
         if val:
             self.set_el_text('path', val)
         return self.get_el_text('path')
 
     def desc(self, val=None):
+        '''
+        get/set game description
+        '''
         if val:
             self.set_el_text('desc', val)
         return self.get_el_text('desc')
 
     def thumbnail(self, val=None):
+        '''
+        get/set game thumbnail
+        '''
         if val:
             self.set_el_text('thumbnail', val)
         return self.get_el_text('thumbnail')
 
     def to_xml(self):
+        '''
+        return as xml string format
+        '''
         return xml_to_string(self.el)
 
     def delete(self):
+        '''
+        delete itself from gamelist
+        '''
         self.gl.delete(self.el)
 
     def __str__(self):
+        '''
+        return as xml string format
+        '''
         return self.to_xml()
 
 
@@ -264,7 +311,7 @@ class GLBrowser:
         '''
         create from RPGamelist
         '''
-        self.gl: RPGameList = gamelist
+        self.gl = gamelist
 
     def get_game_images(self):
         '''

@@ -189,15 +189,15 @@ def merge_gamelist(glpaths: typing.List[str], keep_doublons=False):
     return RPGameList(root)
 
 
-def check_missing_games(glpath: str, gamelist=None):
+def fix_missing_games(glpath: str):
     '''
     test missing rom's game entries in a gamelist and purge it from them
     '''
     log("+ Check missing game paths on {}".format(glpath))
     pathdir = os.path.dirname(glpath)
     root = ET.Element(ROOT_NAME)
-    gl: RPGameList = gamelist or RPGameList.from_path(glpath)
-    glg: typing.List[RPGame] = gl.get_games()
+    gl = RPGameList.from_path(glpath)
+    glg = gl.get_games()
     #
     for g in glg:
         gpath = os.path.join(pathdir, g.path() or '')
@@ -251,7 +251,7 @@ def main():
         # loop gamelist file(s)
         for fpath in glpaths:
             if any(item in lookup_type for item in ['game', 'all']):
-                gl = check_missing_games(fpath)
+                gl = fix_missing_games(fpath)
             elif any(item in lookup_type for item in ['image', 'all']):
                 gl = complete_empty_image_path(
                     fpath, repair=args.repair is not None)
