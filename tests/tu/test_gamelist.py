@@ -35,6 +35,12 @@ def test_games(glb):
     assert len(ffgames) == 1
     assert ffgames[0].name() == 'Final Fight (World)'
     assert len(glb.get_games_by_id('101')) == 0
+    # gamelist len test
+    assert len(glb.gl) == 1
+    # gamelist iterable test
+    for g in glb.gl:
+        assert g != None
+        assert g.name() != None
 
 
 def test_folders(glb):

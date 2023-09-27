@@ -2,6 +2,7 @@
 import sys
 import os
 import io
+import re
 from typing import List, Mapping as Map
 import xml.etree.ElementTree as ET
 import argparse
@@ -14,6 +15,7 @@ from shutil import copyfile
 LOG_FILE = "gltool.log"
 DEFAULT_GAMELIST_FILE_NAME = 'new_gamelist.xml'
 UseConsoleOut = False
+VerboseMode = False
 ROOT_NAME = 'gameList'
 ###############################################################################
 
@@ -47,7 +49,7 @@ def log(msg, ERROR=False):
     '''
     with open(LOG_FILE, "a") as f:
         f.write("{}{}\n".format("ERROR: " if ERROR else "", msg))
-    if not UseConsoleOut:
+    if not UseConsoleOut or VerboseMode:
         print(msg)
 
 
@@ -106,8 +108,8 @@ def get_image_files_in_tree_as_map(dpath: str):
     '''
     flist: Map[str, str] = {}
     for (rep, subreps, files) in walk(dpath):
-        flist.update({f[:-4]: os.path.join(rep, f).replace('\\', '/') #type: ignore
-                     for f in files if f.endswith('.png')}) 
+        flist.update({f[:-4]: os.path.join(rep, f).replace('\\', '/')  # type: ignore
+                     for f in files if f.endswith('.png')})
     return flist
 
 
@@ -128,7 +130,7 @@ def complete_empty_image_path(fpath, gamelist=None, repair=False):
     for g in GLBrowser(gl).get_empty_image_games():
         log('Missing image game: {}'.format(g.name()))
         if g.name() in img_dic:
-            imagePath = img_dic[g.name()][prefixLen:] #type: ignore
+            imagePath = img_dic[g.name()][prefixLen:]  # type: ignore
             log('Found image game: {} -> {}'.format(g.name(), imagePath))
             g.image(imagePath)
     return gl
@@ -151,18 +153,18 @@ def list_target(fpath, target):
     * folder: list all folders
     * empty_image: list all specified games without images
     '''
-    gl = GLBrowser(RPGameList.from_path(fpath))
+    glb = GLBrowser(RPGameList.from_path(fpath))
     if target == 'image':
-        print("\n".join([i for i in gl.get_game_images()]))
+        print("\n".join([i for i in glb.get_game_images()]))
     elif target == 'game':
         print(''.join(["{}\n\t{}/{} '{}'\n".format(g.name(),
-              g.region(), g.genre(), g.path()) for g in gl.get_games()]))
+              g.region(), g.genre(), g.path()) for g in glb.get_games()]))
     elif target == 'folder':
         print(''.join(["{}\n\t'{}' '{}'\n".format(
-            g.name(), g.thumbnail(), g.path()) for g in gl.get_folders()]))
+            g.name(), g.thumbnail(), g.path()) for g in glb.get_folders()]))
     elif target == 'empty_image':
         print("\n".join(["{}: {}".format(g.name(), g.path())
-              for g in gl.get_empty_image_games()]))
+              for g in glb.get_empty_image_games()]))
     else:
         log("Unkown type: {}".format(target), ERROR=True)
 
@@ -178,9 +180,9 @@ def merge_gamelist(glpaths: List[str], keep_doublons=False):
     # g_dic.append({k,v for })#TODO
     for glpath in glpaths:
         for f in RPGameList.from_path(glpath).get_folders():
-            gdic[f.path()] = f #type: ignore
-        for g in RPGameList.from_path(glpath).get_games():
-            gdic[g.path()] = g #type: ignore
+            gdic[f.path()] = f  # type: ignore
+        for g in RPGameList.from_path(glpath):
+            gdic[g.path()] = g  # type: ignore
 
     for k, v in gdic.items():
         # if not keep_doublons and RPGameList.from_path(glpath).get_games_by_id(v.id()):
@@ -197,9 +199,8 @@ def fix_missing_games(glpath: str):
     pathdir = os.path.dirname(glpath)
     root = ET.Element(ROOT_NAME)
     gl = RPGameList.from_path(glpath)
-    glg = gl.get_games()
     #
-    for g in glg:
+    for g in gl:
         gpath = os.path.join(pathdir, g.path() or '')
         if not os.path.isfile(gpath):
             log("Missing ROM file for game {}. Tested: [{}], Declared: [{}]".format(
@@ -209,17 +210,29 @@ def fix_missing_games(glpath: str):
     return gl
 
 
+def delete_games(glpath: str, expr: str):
+    '''delete games matching epxression'''
+    log("+ Deleting entries from gamelist [{}]".format(glpath))
+    gl = RPGameList.from_path(glpath)
+    rexp = re.compile(expr)
+    for g in gl:
+        if rexp.search(g.name()):
+            log("Deleting entry from gamelist. Game: [{}]".format(g.name()))
+            g.delete()
+    return gl
+
 ###############################################################################
+
+
 def main():
     global UseConsoleOut
+    global VerboseMode
     parser = argparse.ArgumentParser(
         description='Helpful tool for managing and cleaning gamelist.xml file(s)')
-    parser.add_argument('--check', help='clear specified element',
-                        type=str, choices=['game', 'title', 'image'], default='')
-    parser.add_argument('--clear', help='clear specified element',
+    parser.add_argument('--check', help='check specified element',
                         type=str, choices=['game', 'title', 'image'], default='')
     parser.add_argument(
-        '--delete', help='delete game(s) that match selector', type=str)
+        '--delete', help='delete game(s) that match regular expression', type=str)
     parser.add_argument('-l', '--list', help='list the element(s) matching selector',
                         type=str, choices=['game', 'image', 'folder', 'empty_image'])
     parser.add_argument(
@@ -229,6 +242,8 @@ def main():
     parser.add_argument('--merge', help='merge gamelists',
                         action='store_true', default=False)
     parser.add_argument('-o', '--console', help='Output result on console (no disk write)',
+                        action='store_true', default=False)
+    parser.add_argument('-v', '--verbose', help='Output logs on console (no disk write)',
                         action='store_true', default=False)
     # parser.add_argument('target', help='affect the specified element', choices=['game', 'description', 'title', 'image', 'empty_image', 'folder'])
     parser.add_argument('-f', '--files', dest='gamelist',
@@ -241,11 +256,12 @@ def main():
 
     glpaths = args.gamelist
     UseConsoleOut = args.console or False
+    VerboseMode = args.verbose or False
     if args.list:
         list_target(glpaths[0], args.list)
-    if args.count:
+    elif args.count:
         count_entry(args.count)
-    if args.repair or args.check:
+    elif args.repair or args.check:
         gl = None
         lookup_type = args.repair or args.check
         # loop gamelist file(s)
@@ -261,8 +277,14 @@ def main():
                 print_file(gl)
             else:  # write output new file
                 create_file(gl, glpaths[0])
-    if args.merge:
+    elif args.merge:
         gl = merge_gamelist(args.gamelist, UseConsoleOut)
+        if UseConsoleOut:
+            print_file(gl)
+        else:
+            gl.write(out_gl_file_name())
+    elif args.delete:
+        gl = delete_games(glpaths[0], args.delete)
         if UseConsoleOut:
             print_file(gl)
         else:

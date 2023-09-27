@@ -11,20 +11,18 @@ At term, this project should be available in both CLI and GUI.
 ### Display help and General Usage
 
 ```shell
-python3 gltool.py --help
+python gltool.py --help
 
-usage: gltool.py [-h] [--check {game,title,image}] [--clear {game,title,image}] [--delete DELETE] [-l {game,image,folder,empty_image}] [--count [COUNT]]
-                 [--repair {game,image,all} [{game,image,all} ...]] [--merge] [-o] [-f [GAMELIST [GAMELIST ...]]]
+usage: gltool.py [-h] [--check {game,title,image}] [--delete DELETE] [-l {game,image,folder,empty_image}] [--count [COUNT]]
+                 [--repair {game,image,all} [{game,image,all} ...]] [--merge] [-o] [-v] [-f [GAMELIST [GAMELIST ...]]]
 
 Helpful tool for managing and cleaning gamelist.xml file(s)
 
 optional arguments:
   -h, --help            show this help message and exit
   --check {game,title,image}
-                        clear specified element
-  --clear {game,title,image}
-                        clear specified element
-  --delete DELETE       delete game(s) that match selector
+                        check specified element
+  --delete DELETE       delete game(s) that match regular expression
   -l {game,image,folder,empty_image}, --list {game,image,folder,empty_image}
                         list the element(s) matching selector
   --count [COUNT]       count the number of occurences
@@ -32,6 +30,7 @@ optional arguments:
                         fix paths issue for games
   --merge               merge gamelists
   -o, --console         Output result on console (no disk write)
+  -v, --verbose         Output logs on console (no disk write)
   -f [GAMELIST [GAMELIST ...]], --files [GAMELIST [GAMELIST ...]]
                         a list of gamelist.xml(s) path(s)
 ```
@@ -41,19 +40,27 @@ optional arguments:
 #### Check invalid games paths
 
 ```shell
-python3 gltool.py --check game -f pathto/gamelist.xml
+python gltool.py --check game -f pathto/gamelist.xml
 ```
 
 #### Check invalid images paths
 
 ```shell
-python3 gltool.py --check image -f pathto/gamelist.xml
+python gltool.py --check image -f pathto/gamelist.xml
 ```
 
 #### Merge gamelists and remove doublons (game id match)
 
 ```shell
-python3 gltool.py --merge -f path_1/gamelist.xml,path_2/gamelist.xml
+python gltool.py --merge -f path_1/gamelist.xml path_2/gamelist.xml
+```
+
+#### Delete game
+
+Delete all matching games
+
+```shell
+python gltool.py --delete 'Streets of Rage [1-3]?' -f pathto/gamelist.xml
 ```
 
 ### Repair gamelists
@@ -61,11 +68,11 @@ python3 gltool.py --merge -f path_1/gamelist.xml,path_2/gamelist.xml
 #### Automaticaly detect missing images and fix 
 
 ```shell
-python3 gltool.py --repair image -f pathto/gamelist.xml
+python gltool.py --repair image -f pathto/gamelist.xml
 ```
 
 #### Automatically detect missing rom files and remove
 
 ```shell
-python3 gltool.py --repair game -f pathto/gamelist.xml
+python gltool.py --repair game -f pathto/gamelist.xml
 ```
