@@ -30,6 +30,7 @@ class RPGameList:
     </gameList>
     '''
     root: ET.Element
+
     @staticmethod
     def from_path(fpath: str):
         '''
