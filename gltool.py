@@ -201,7 +201,7 @@ def fix_missing_games(glpath: str):
     #
     for g in glg:
         gpath = os.path.join(pathdir, g.path() or '')
-        if not os.path.exists(gpath):
+        if not os.path.isfile(gpath):
             log("Missing ROM file for game {}. Tested: [{}], Declared: [{}]".format(
                 g.name(), gpath, g.path()))
             g.delete()

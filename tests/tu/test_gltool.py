@@ -20,8 +20,8 @@ def test_merge_gamelist_same():
     #gl_mrg = merge_gamelist(gla, keep_doublons=True)
     #assert len(gl_mrg.get_games()) == 2
 
-def test_check_missing_games():
+def test_fix_missing_games():
     gl = RPGameList.from_path('tests/tu/gamelist-purge.xml')
     assert len(gl.get_games()) == 2
-    gl_purged = check_missing_games('tests/tu/gamelist-purge.xml')
+    gl_purged = fix_missing_games('tests/tu/gamelist-purge.xml')
     assert len(gl_purged.get_games()) == 1

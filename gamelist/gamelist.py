@@ -104,7 +104,7 @@ class RPElem:
         get xml tag content
         '''
         val = self.el.find(name)
-        return val.text if val else None
+        return val.text if val != None else None
 
     def set_el_text(self, name, newval):
         '''
