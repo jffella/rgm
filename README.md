@@ -12,8 +12,31 @@ At term, this project should be available in both CLI and GUI.
 
 ```shell
 python3 gltool.py --help
+
+usage: gltool.py [-h] [--check {game,title,image}] [--clear {game,title,image}] [--delete DELETE] [-l {game,image,folder,empty_image}] [--count [COUNT]]
+                 [--repair {game,image,all} [{game,image,all} ...]] [--merge] [-o] [-f [GAMELIST [GAMELIST ...]]]
+
+Helpful tool for managing and cleaning gamelist.xml file(s)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --check {game,title,image}
+                        clear specified element
+  --clear {game,title,image}
+                        clear specified element
+  --delete DELETE       delete game(s) that match selector
+  -l {game,image,folder,empty_image}, --list {game,image,folder,empty_image}
+                        list the element(s) matching selector
+  --count [COUNT]       count the number of occurences
+  --repair {game,image,all} [{game,image,all} ...]
+                        fix paths issue for games
+  --merge               merge gamelists
+  -o, --console         Output result on console (no disk write)
+  -f [GAMELIST [GAMELIST ...]], --files [GAMELIST [GAMELIST ...]]
+                        a list of gamelist.xml(s) path(s)
 ```
-### Check gamelists
+
+### Manage gamelists
 
 #### Check invalid games paths
 
@@ -27,10 +50,22 @@ python3 gltool.py --check game -f pathto/gamelist.xml
 python3 gltool.py --check image -f pathto/gamelist.xml
 ```
 
+#### Merge gamelists and remove doublons (game id match)
+
+```shell
+python3 gltool.py --merge -f path_1/gamelist.xml,path_2/gamelist.xml
+```
+
 ### Repair gamelists
 
 #### Automaticaly detect missing images and fix 
 
 ```shell
 python3 gltool.py --repair image -f pathto/gamelist.xml
+```
+
+#### Automatically detect missing rom files and remove
+
+```shell
+python3 gltool.py --repair game -f pathto/gamelist.xml
 ```

@@ -2,7 +2,7 @@
 import sys
 import os
 import io
-import typing
+from typing import List, Mapping as Map
 import xml.etree.ElementTree as ET
 import argparse
 from configparser import ConfigParser
@@ -100,14 +100,14 @@ def get_image_files_in_tree(dpath):
     return flist
 
 
-def get_image_files_in_tree_as_map(dpath):
+def get_image_files_in_tree_as_map(dpath: str):
     '''
     find all image files in specified tree path and return a map
     '''
-    flist = {}
+    flist: Map[str, str] = {}
     for (rep, subreps, files) in walk(dpath):
-        flist.update({f[:-4]: os.path.join(rep, f).replace('\\', '/')
-                     for f in files if f.endswith('.png')})
+        flist.update({f[:-4]: os.path.join(rep, f).replace('\\', '/') #type: ignore
+                     for f in files if f.endswith('.png')}) 
     return flist
 
 
@@ -128,7 +128,7 @@ def complete_empty_image_path(fpath, gamelist=None, repair=False):
     for g in GLBrowser(gl).get_empty_image_games():
         log('Missing image game: {}'.format(g.name()))
         if g.name() in img_dic:
-            imagePath = img_dic[g.name()][prefixLen:]
+            imagePath = img_dic[g.name()][prefixLen:] #type: ignore
             log('Found image game: {} -> {}'.format(g.name(), imagePath))
             g.image(imagePath)
     return gl
@@ -167,20 +167,20 @@ def list_target(fpath, target):
         log("Unkown type: {}".format(target), ERROR=True)
 
 
-def merge_gamelist(glpaths: typing.List[str], keep_doublons=False):
+def merge_gamelist(glpaths: List[str], keep_doublons=False):
     '''
     merge many gamelist in one. 
     create gamelist objects from param paths and return a new gamelist object
     '''
     log("+ Merging gamelist(s) {}".format(glpaths[:0]))
     root = ET.Element(ROOT_NAME)
-    gdic = {}
+    gdic: Map[str, RPGame] = {}
     # g_dic.append({k,v for })#TODO
     for glpath in glpaths:
         for f in RPGameList.from_path(glpath).get_folders():
-            gdic[f.path()] = f
+            gdic[f.path()] = f #type: ignore
         for g in RPGameList.from_path(glpath).get_games():
-            gdic[g.path()] = g
+            gdic[g.path()] = g #type: ignore
 
     for k, v in gdic.items():
         # if not keep_doublons and RPGameList.from_path(glpath).get_games_by_id(v.id()):
@@ -201,7 +201,7 @@ def fix_missing_games(glpath: str):
     #
     for g in glg:
         gpath = os.path.join(pathdir, g.path() or '')
-        if not os.path.exists(gpath):
+        if not os.path.isfile(gpath):
             log("Missing ROM file for game {}. Tested: [{}], Declared: [{}]".format(
                 g.name(), gpath, g.path()))
             g.delete()
