@@ -57,7 +57,7 @@ python gltool.py --merge -f path_1/gamelist.xml path_2/gamelist.xml
 
 #### Delete game
 
-Delete all Final fight matching games
+Delete all matching games
 
 ```shell
 python gltool.py --delete 'Streets of Rage [1-3]?' -f pathto/gamelist.xml
