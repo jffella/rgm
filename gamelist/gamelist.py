@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from typing import Iterator
 
 # from lxml import etree as ET
 ###############################################################################
@@ -45,6 +46,19 @@ class RPGameList:
         '''
         self.root = root  # Element object
         self.tree = tree  # ElementTree object
+
+    def __iter__(self):
+        '''iterable implementation'''
+        self.iter_cache = self.get_games().__iter__()
+        return self
+
+    def __next__(self):
+        '''iterable implementation'''
+        return self.iter_cache.__next__()
+
+    def __len__(self):
+        '''len implementation'''
+        return len(self.get_games())
 
     def get_games(self, regex='./game'):
         '''
@@ -150,7 +164,7 @@ class RPElem:
         '''
         if val:
             self.set_el_text('name', val)
-        return self.get_el_text('name')
+        return self.get_el_text('name') or ''
 
     def image(self, val=None):
         '''
@@ -306,9 +320,8 @@ class RPGame(RPElem):
 
 
 class GLBrowser:
-    '''
-    allows RPGameList browsing
-    '''
+    '''allows RPGameList browsing'''
+    gl: RPGameList
 
     def __init__(self, gamelist: RPGameList):
         '''
@@ -326,13 +339,13 @@ class GLBrowser:
         '''
         get only images with an empty path from gamelist
         '''
-        return [g for g in self.gl.get_games() if not g.image()]
+        return [g for g in self.gl if not g.image()]
 
     def get_empty_desc_games(self):
         '''
         get only games with an empty description
         '''
-        return [g for g in self.gl.get_games() if not g.desc()]
+        return [g for g in self.gl if not g.desc()]
 
     def get_hidden_games(self):
         '''
@@ -350,7 +363,7 @@ class GLBrowser:
         '''
         get all games in gamelist
         '''
-        return [g for g in self.gl.get_games()]
+        return [g for g in self.gl]
 
     def get_games_by_id(self, id: str):
         '''

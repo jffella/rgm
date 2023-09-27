@@ -25,3 +25,14 @@ def test_fix_missing_games():
     assert len(gl.get_games()) == 2
     gl_purged = fix_missing_games('tests/tu/gamelist-purge.xml')
     assert len(gl_purged.get_games()) == 1
+
+def test_delete_games():
+    filename = 'tests/tu/gamelist-purge.xml'
+    gl = RPGameList.from_path(filename)
+    assert len(gl) == 2
+    gl = delete_games(filename, 'Final Fight')
+    assert len(gl) == 0
+    gl = delete_games(filename, 'Final Fight 2')
+    assert len(gl) == 1
+    gl = delete_games(filename, '\\w+ Fight ')
+    assert len(gl) == 0

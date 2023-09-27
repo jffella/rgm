@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "args": ["-l", "game", "-f", "tests/gamelist.xml"],
+            "args": ["-l", "game", "-f", "tests/resources/gamelist.xml"],
             "console": "integratedTerminal",
             "justMyCode": true
         },
@@ -18,7 +18,7 @@
             "type": "python",
             "request": "launch",
             "program": "gltool.py",
-            "args": ["-l", "game", "-f", "tests/gamelist.xml"],
+            "args": ["-l", "game", "-f", "tests/resources/gamelist.xml"],
             "console": "integratedTerminal",
             "justMyCode": true
         },
@@ -27,7 +27,7 @@
             "type": "python",
             "request": "launch",
             "program": "gltool.py",
-            "args": ["--check", "game", "-f", "tests/gamelist.xml"],
+            "args": ["--check", "game", "-f", "tests/resources/gamelist.xml"],
             "console": "integratedTerminal",
             "justMyCode": true
         },
@@ -36,7 +36,16 @@
             "type": "python",
             "request": "launch",
             "program": "gltool.py",
-            "args": ["--merge", "-f", "tests/gamelist.xml", "tests/gamelist2.xml"],
+            "args": ["--merge", "-f", "tests/resources/gamelist.xml", "tests/resources/gamelist2.xml"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python : GLTool delete",
+            "type": "python",
+            "request": "launch",
+            "program": "gltool.py",
+            "args": ["--delete", "Final Fight", "-o", "-f", "tests/tu/gamelist-purge.xml"],
             "console": "integratedTerminal",
             "justMyCode": true
         },
