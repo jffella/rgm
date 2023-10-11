@@ -153,7 +153,7 @@ def list_target(fpath, target):
     * folder: list all folders
     * empty_image: list all specified games without images
     '''
-    glb = GLBrowser([RPGameList.from_path(fpath)])
+    glb = GLBrowser.load(fpath)
     if target == 'image':
         print("\n".join([i for i in glb.get_game_images()]))
     elif target == 'game':
@@ -176,13 +176,10 @@ def merge_gamelist(glpaths: List[str], keep_doublons=False):
     '''
     log("+ Merging gamelist(s) {}".format(glpaths[:0]))
     root = ET.Element(ROOT_NAME)
-    gdic: Map[str, RPGame] = {}
-    # g_dic.append({k,v for })#TODO
-    for glpath in glpaths:
-        for f in RPGameList.from_path(glpath).get_folders():
-            gdic[f.path()] = f  # type: ignore
-        for g in RPGameList.from_path(glpath):
-            gdic[g.path()] = g  # type: ignore
+    glb = GLBrowser.load(glpaths)
+    gdic = {}
+    gdic.update({f.path(): f for f in glb.get_folders()})
+    gdic.update({g.path(): g for g in glb.get_games()})
 
     for k, v in gdic.items():
         # if not keep_doublons and RPGameList.from_path(glpath).get_games_by_id(v.id()):
@@ -242,14 +239,49 @@ def create_prog_options():
     parser.add_argument('-v', '--verbose', help='Output logs on console (no disk write)',
                         action='store_true', default=False)
     parser.add_argument(
-        '--export-favorites', help='export gamelist favorites from path', type=str, default='', nargs='?')
+        '--export-favorites', help='export gamelist favorites from path', type=str, default='', nargs='+')
     parser.add_argument(
-        '--import-favorites', help='import favorites from path and add to gamelist(s)', type=str, default='', nargs='1')
+        '--import-favorites', help='import favorites from path and add to gamelist(s)', type=str, default='', nargs='+')
     # parser.add_argument('target', help='affect the specified element', choices=['game', 'description', 'title', 'image', 'empty_image', 'folder'])
     parser.add_argument('-f', '--files', dest='gamelist',
-                        help='a list of gamelist.xml(s) path(s)', default='gamelist.xml', nargs='*')
+                        help='a list of gamelist.xml(s) path(s)', default='', nargs='*')
     # create arguments options
     return parser.parse_args()
+
+
+def get_gamefiles_from_tree(glpath_args):
+    '''
+    find gamelist.xml files in path(s)
+    '''
+    glpaths = []
+    for fpath in glpath_args:
+        if os.path.isdir(fpath):
+            w = walk(fpath)
+            for (dirpath, dirnames, filenames) in w:
+                glpaths.extend(get_gamefiles_from_tree(
+                    [os.path.join(dirpath, f) for f in filenames]))
+        elif fpath.endswith('.xml') and os.path.exists(fpath):
+            glpaths.append(fpath)
+    return glpaths
+
+
+def export_favorites(glpath_args):
+    '''
+    export all favorites found in path(s)
+    '''
+    glpaths = get_gamefiles_from_tree(glpath_args)
+    glb = GLBrowser.load(glpaths)
+    favorites = glb.get_favorite_gamelists()
+    for gl in favorites:
+        print_file(gl)
+
+
+def import_favorites(glpath_args):
+    '''
+    FIXME
+    '''
+    pass
+
 
 ###############################################################################
 
@@ -257,7 +289,7 @@ def create_prog_options():
 def main():
     global UseConsoleOut
     global VerboseMode
-    ## create prog argument options
+    # create prog argument options
     args = create_prog_options()
     # parse options
     for gl in args.gamelist:
@@ -299,6 +331,10 @@ def main():
             print_file(gl)
         else:
             gl.write(out_gl_file_name())
+    elif args.export_favorites:
+        export_favorites(args.export_favorites)
+    elif args.import_favorites:
+        import_favorites(args.import_favorites)
 
 
 ###

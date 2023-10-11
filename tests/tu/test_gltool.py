@@ -11,11 +11,13 @@ def test_merge_gamelist_diff():
     gla = ['tests/tu/gamelist-merge1.xml', 'tests/tu/gamelist-merge2.xml']
     gl_mrg = merge_gamelist(gla)
     assert len(gl_mrg.get_games()) == 2
+    assert len(gl_mrg.get_folders()) == 1
 
 def test_merge_gamelist_same():
     gla = ['tests/tu/gamelist-merge1.xml', 'tests/tu/gamelist-merge1.xml']
     gl_mrg = merge_gamelist(gla)
     assert len(gl_mrg.get_games()) == 1
+    assert len(gl_mrg.get_folders()) == 1
     #FIXME
     #gl_mrg = merge_gamelist(gla, keep_doublons=True)
     #assert len(gl_mrg.get_games()) == 2

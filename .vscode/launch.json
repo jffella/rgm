@@ -49,5 +49,14 @@
             "console": "integratedTerminal",
             "justMyCode": true
         },
+        {
+            "name": "Python : GLTool export favorites",
+            "type": "python",
+            "request": "launch",
+            "program": "gltool.py",
+            "args": ["--export-favorites", "tests"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
     ]
 }

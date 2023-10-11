@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from typing import List
 from typing import Iterator
+import copy
 
 # from lxml import etree as ET
 ###############################################################################
@@ -217,6 +218,14 @@ class RPElem:
         '''
         return self.to_xml()
 
+    def __eq__(self, other):
+        '''
+        compare 2 instances of this object
+        '''
+        if not isinstance(other, RPElem):
+            # don't attempt to compare against unrelated types
+            return NotImplemented
+        return self.to_xml() == other.to_xml()
 
 class RPFolder(RPElem):
     '''
@@ -326,9 +335,16 @@ class GLBrowser:
 
     def __init__(self, gamelist: List[RPGameList]):
         '''
-        create from RPGamelist(s)
+        create with a set of gamelist(s)
         '''
         self.gll = gamelist
+
+    @staticmethod
+    def load(gamelist_paths: List[str]):
+        '''
+        load a gamelist set from a set of paths
+        '''
+        return GLBrowser([RPGameList.from_path(fpath) for fpath in gamelist_paths])
 
     def get_game_images(self):
         '''
@@ -366,11 +382,26 @@ class GLBrowser:
         '''
         return [g for gl in self.gll for g in gl]
 
-    def get_favorites(self):
+    def get_favorite_games(self):
         '''
         get games that are in favorites
         '''
         return [g for gl in self.gll for g in gl.get_games('./game/[favorite="True"]')]
+
+    def get_favorite_gamelists(self):
+        '''
+        get games that are in favorites
+        '''
+        fgl = []
+        for gl in self.gll:
+            games = gl.get_games('./game/[favorite="True"]')
+            if games:
+                temp_gl = copy.copy(gl)
+                temp_gl.root = copy.deepcopy(gl.root)
+                for g in [g0 for g0 in temp_gl if g0 not in games]:
+                    g.delete()
+                fgl.append(temp_gl)
+        return fgl
 
     def get_games_by_id(self, id: str):
         '''

@@ -34,6 +34,9 @@ def test_from_path():
     assert ffgame.id() == 'ffight'
     ffgame.id('ffight2')
     assert ffgame.id() == 'ffight2'
+    # GLBrowser load test
+    glb = GLBrowser.load(['tests/tu/gamelist-one-game.xml', 'tests/tu/gamelist-one-game2.xml'])
+    assert len(glb.get_games()) == 2
 
 
 def test_games(glb, glb2):
@@ -58,7 +61,8 @@ def test_games(glb, glb2):
     assert ffgames[0].name() == 'Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai (NGM-033)(NGH-033) '
     assert len(glb2.get_games_by_id('fatfury2')) == 0
     # test favorites
-    assert len(glb2.get_favorites()) == 1
+    assert len(glb2.get_favorite_gamelists()) == 1
+    assert len(glb2.get_favorite_games()) == 1
     # gamelist len test
     assert len(glb2.gll[0]) == 1
     ## gamelist iterable test
