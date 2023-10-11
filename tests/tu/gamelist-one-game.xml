@@ -3,7 +3,7 @@
         <path>mame</path>
         <name>MAME</name>
     </folder>
-    <game id="100" source="theGamesDB.net">
+    <game id="ffight" source="theGamesDB.net">
         <path>mame/ffight.zip</path>
         <name>Final Fight (World)</name>
         <desc>Blah blah blah.  Blah blah blah.</desc>

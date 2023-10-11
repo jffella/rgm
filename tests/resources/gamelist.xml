@@ -1,5 +1,5 @@
 <gameList>
-      <game id="1" source="theGamesDB.net">
+      <game id="simplegame" source="theGamesDB.net">
           <path>./SimpleGame.n64</path>
           <name>SimpleGame</name>
           <desc>You play in a Simple Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
@@ -13,7 +13,7 @@
           <region>World</region>
           <romtype>Original</romtype>
       </game>
-      <game id="1" source="theGamesDB.net">
+      <game id="simplegame" source="theGamesDB.net">
           <path>./SimpleGame.n64</path>
           <name>SimpleGame without image</name>
           <desc>You play in a Simple Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
@@ -26,7 +26,7 @@
           <region>World</region>
           <romtype>Original</romtype>
       </game>
-      <game id="160" source="theGamesDB.net">
+      <game id="supergame" source="theGamesDB.net">
           <path>./001 - SuperGame (Europe).n64</path>
           <name>A very Super Game (Europe)</name>
           <desc>You play in a Super Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
@@ -40,7 +40,7 @@
           <region>Europe</region>
           <romtype>Original</romtype>
       </game>
-      <game id="237" source="theGamesDB.net">
+      <game id="osupergame" source="theGamesDB.net">
           <path>./Other SuperGame (Europe) (En,Ja,Fr,De).n64</path>
           <name>Other Super Game (Europe) (En,Ja,Fr,De)</name>
           <desc>You play in a Super Game.&#xA;&#xA;This is Genial.  Blah blah blah.  Blah blah blah&#xA;* Battery-backed memory saves game progress!</desc>
