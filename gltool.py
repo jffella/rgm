@@ -127,7 +127,7 @@ def complete_empty_image_path(fpath, gamelist=None, repair=False):
     # get game list with empty images
     gl: RPGameList = gamelist or RPGameList.from_path(fpath)
     # complete game list with found images
-    for g in GLBrowser(gl).get_empty_image_games():
+    for g in GLBrowser([gl]).get_empty_image_games():
         log('Missing image game: {}'.format(g.name()))
         if g.name() in img_dic:
             imagePath = img_dic[g.name()][prefixLen:]  # type: ignore
@@ -153,7 +153,7 @@ def list_target(fpath, target):
     * folder: list all folders
     * empty_image: list all specified games without images
     '''
-    glb = GLBrowser(RPGameList.from_path(fpath))
+    glb = GLBrowser([RPGameList.from_path(fpath)])
     if target == 'image':
         print("\n".join([i for i in glb.get_game_images()]))
     elif target == 'game':
@@ -221,12 +221,8 @@ def delete_games(glpath: str, expr: str):
             g.delete()
     return gl
 
-###############################################################################
 
-
-def main():
-    global UseConsoleOut
-    global VerboseMode
+def create_prog_options():
     parser = argparse.ArgumentParser(
         description='Helpful tool for managing and cleaning gamelist.xml file(s)')
     parser.add_argument('--check', help='check specified element',
@@ -245,11 +241,25 @@ def main():
                         action='store_true', default=False)
     parser.add_argument('-v', '--verbose', help='Output logs on console (no disk write)',
                         action='store_true', default=False)
+    parser.add_argument(
+        '--export-favorites', help='export gamelist favorites from path', type=str, default='', nargs='?')
+    parser.add_argument(
+        '--import-favorites', help='import favorites from path and add to gamelist(s)', type=str, default='', nargs='1')
     # parser.add_argument('target', help='affect the specified element', choices=['game', 'description', 'title', 'image', 'empty_image', 'folder'])
     parser.add_argument('-f', '--files', dest='gamelist',
                         help='a list of gamelist.xml(s) path(s)', default='gamelist.xml', nargs='*')
-    args = parser.parse_args()
-    #
+    # create arguments options
+    return parser.parse_args()
+
+###############################################################################
+
+
+def main():
+    global UseConsoleOut
+    global VerboseMode
+    ## create prog argument options
+    args = create_prog_options()
+    # parse options
     for gl in args.gamelist:
         if not os.path.exists(gl):
             raise Exception('Unknown path {}'.format(gl))

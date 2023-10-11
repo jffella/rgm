@@ -8,6 +8,8 @@ At term, this project should be available in both CLI and GUI.
 
 ## Use
 
+The project requires a version of python superior or equal to python 3.8 at least.
+
 ### Display help and General Usage
 
 ```shell
@@ -75,4 +77,18 @@ python gltool.py --repair image -f pathto/gamelist.xml
 
 ```shell
 python gltool.py --repair game -f pathto/gamelist.xml
+```
+
+### Manage Favorites
+
+#### Export Favorites
+
+```shell
+python gltool.py --export-favorites -f pathto/gamelist.xml
+```
+
+#### Tag with Favorites
+
+```shell
+python gltool.py --import-favorites pathto/favorites.txt -f pathto/gamelist.xml
 ```

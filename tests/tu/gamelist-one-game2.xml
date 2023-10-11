@@ -1,0 +1,21 @@
+<gameList>
+    <folder>
+        <path>mame</path>
+        <name>MAME</name>
+    </folder>
+    <game id="fatfury1" source="mamedb.com">
+        <path>./fatfury1.zip</path>
+        <name>Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai (NGM-033)(NGH-033) </name>
+        <desc></desc>
+        <image>./media/fatfury1-image.jpg</image>
+        <rating>0.733</rating>
+        <releasedate>1991</releasedate>
+        <developer>SNK</developer>
+        <publisher></publisher>
+        <genre>Fighter / Versus</genre>
+        <players>2</players>
+        <favorite>True</favorite>
+        <region></region>
+        <romtype></romtype>
+       </game>
+</gameList>

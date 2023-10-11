@@ -1,0 +1,200 @@
+ <gameList>
+  <game id="fatfursp" source="mamedb.com">
+   <path>./fatfursp.zip</path>
+   <name>Fatal Fury Special / Garou Densetsu Special (set 1)(NGM-058)(NGH-058) </name>
+   <desc></desc>
+   <image>./media/fatfursp-image.jpg</image>
+   <rating>0.8699999999999999</rating>
+   <releasedate>1993</releasedate>
+   <developer>SNK</developer>
+   <publisher></publisher>
+   <genre>Fighter / Versus</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="fatfury1" source="mamedb.com">
+   <path>./fatfury1.zip</path>
+   <name>Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai (NGM-033)(NGH-033) </name>
+   <desc></desc>
+   <image>./media/fatfury1-image.jpg</image>
+   <rating>0.733</rating>
+   <releasedate>1991</releasedate>
+   <developer>SNK</developer>
+   <publisher></publisher>
+   <genre>Fighter / Versus</genre>
+   <players>2</players>
+   <favorite>True</favorite>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="fatfury2" source="mamedb.com">
+   <path>./fatfury2.zip</path>
+   <name>Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai (NGM-047)(NGH-047) </name>
+   <desc></desc>
+   <image>./media/fatfury2-image.jpg</image>
+   <rating>0.82</rating>
+   <releasedate>1992</releasedate>
+   <developer>SNK</developer>
+   <publisher></publisher>
+   <genre>Fighter / Versus</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="fatfury3" source="mamedb.com">
+   <path>./fatfury3.zip</path>
+   <name>Fatal Fury 3 - Road to the Final Victory / Garou Densetsu 3 - haruka-naru tatakai (NGM-069)(NGH-069) </name>
+   <desc></desc>
+   <image>./media/fatfury3-image.jpg</image>
+   <rating>0.775</rating>
+   <releasedate>1995</releasedate>
+   <developer>SNK</developer>
+   <publisher></publisher>
+   <genre>Fighter / Versus</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="ffight" source="mamedb.com">
+   <path>./ffight.zip</path>
+   <name>Final Fight (World, set 1) </name>
+   <desc></desc>
+   <image>./media/ffight-image.jpg</image>
+   <rating>0.7230000000000001</rating>
+   <releasedate>1989</releasedate>
+   <developer>Capcom</developer>
+   <publisher></publisher>
+   <genre>Fighter / 2.5D</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="ffightj" source="mamedb.com">
+   <path>./ffightj.zip</path>
+   <name>Final Fight (Japan) </name>
+   <desc></desc>
+   <image>./media/ffightj-image.jpg</image>
+   <rating>0.72303921569</rating>
+   <releasedate>1989</releasedate>
+   <developer>Capcom</developer>
+   <publisher></publisher>
+   <genre>Fighter / 2.5D</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="sf2" source="mamedb.com">
+   <path>./sf2.zip</path>
+   <name>Street Fighter II: The World Warrior (World 910522) </name>
+   <desc></desc>
+   <image>./media/sf2-image.jpg</image>
+   <rating>0.861</rating>
+   <releasedate>1991</releasedate>
+   <developer>Capcom</developer>
+   <publisher></publisher>
+   <genre>Fighter / Versus</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="sf2ce" source="mamedb.com">
+   <path>./sf2ce.zip</path>
+   <name>Street Fighter II&#39;: Champion Edition (World 920513) </name>
+   <desc></desc>
+   <image>./media/sf2ce-image.jpg</image>
+   <rating>0.72</rating>
+   <releasedate>1992</releasedate>
+   <developer>Capcom</developer>
+   <publisher></publisher>
+   <genre>Fighter / Versus</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="sharrier" source="mamedb.com">
+   <path>./sharrier.zip</path>
+   <name>Space Harrier (Rev A, 8751 315-5163A) </name>
+   <desc></desc>
+   <image>./media/sharrier-image.jpg</image>
+   <rating>0.9550000000000001</rating>
+   <releasedate>1985</releasedate>
+   <developer>Sega</developer>
+   <publisher></publisher>
+   <genre>Shooter / Flying (chase view)</genre>
+   <players>1</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="shdancbl" source="mamedb.com">
+   <path>./shdancbl.zip</path>
+   <name>Shadow Dancer (bootleg) </name>
+   <desc></desc>
+   <image>./media/shdancbl-image.jpg</image>
+   <rating>0.781818181818</rating>
+   <releasedate>1989</releasedate>
+   <developer>bootleg</developer>
+   <publisher></publisher>
+   <genre>Platform / Fighter Scrolling</genre>
+   <players>1</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="shdancer" source="mamedb.com">
+   <path>./shdancer.zip</path>
+   <name>Shadow Dancer (World) </name>
+   <desc></desc>
+   <image>./media/shdancer-image.jpg</image>
+   <rating>0.782</rating>
+   <releasedate>1989</releasedate>
+   <developer>Sega</developer>
+   <publisher></publisher>
+   <genre>Platform / Fighter Scrolling</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="sheriff" source="mamedb.com">
+   <path>./sheriff.zip</path>
+   <name>Sheriff </name>
+   <desc></desc>
+   <image>./media/sheriff-image.jpg</image>
+   <rating>0.6</rating>
+   <releasedate>1979</releasedate>
+   <developer>Nintendo</developer>
+   <publisher></publisher>
+   <genre>Shooter / Field</genre>
+   <players>2</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="shimpact" source="mamedb.com">
+   <path>./shimpact.zip</path>
+   <name>Super High Impact (rev LA1 09/30/91) </name>
+   <desc></desc>
+   <image>./media/shimpact-image.jpg</image>
+   <rating>0.825</rating>
+   <releasedate>1991</releasedate>
+   <developer>Midway</developer>
+   <publisher></publisher>
+   <genre>Sports / Football Amer.</genre>
+   <players>4</players>
+   <region></region>
+   <romtype></romtype>
+  </game>
+  <game id="shinobi" source="mamedb.com">
+   <path>./shinobi.zip</path>
+   <name>Shinobi (set 6, System 16A, unprotected) </name>
+   <desc></desc>
+   <image>./media/shinobi-image.jpg</image>
+   <rating>0.8939999999999999</rating>
+   <releasedate>1987</releasedate>
+   <developer>Sega</developer>
+   <publisher></publisher>
+   <genre>Platform / Fighter Scrolling</genre>
+   <players>2</players>
+   <favorite>True</favorite>
+   <region></region>
+   <romtype></romtype>
+  </game>
+ </gameList>

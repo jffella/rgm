@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from typing import List
 from typing import Iterator
 
 # from lxml import etree as ET
@@ -320,53 +321,59 @@ class RPGame(RPElem):
 
 
 class GLBrowser:
-    '''allows RPGameList browsing'''
-    gl: RPGameList
+    '''allows one or more RPGameList browsing'''
+    gll: List[RPGameList]
 
-    def __init__(self, gamelist: RPGameList):
+    def __init__(self, gamelist: List[RPGameList]):
         '''
-        create from RPGamelist
+        create from RPGamelist(s)
         '''
-        self.gl = gamelist
+        self.gll = gamelist
 
     def get_game_images(self):
         '''
-        get game images from gamelist
+        get game images from gamelist(s)
         '''
-        return [g for g in self.gl.get_game_images()]
+        return [g for gl in self.gll for g in gl.get_game_images()]
 
     def get_empty_image_games(self):
         '''
-        get only images with an empty path from gamelist
+        get only images with an empty path from gamelist(s)
         '''
-        return [g for g in self.gl if not g.image()]
+        return [g for gl in self.gll for g in gl if not g.image()]
 
     def get_empty_desc_games(self):
         '''
         get only games with an empty description
         '''
-        return [g for g in self.gl if not g.desc()]
+        return [g for gl in self.gll for g in gl if not g.desc()]
 
     def get_hidden_games(self):
         '''
         get games with hidden attribute
         '''
-        return self.gl.get_games('./game/[@hidden="true"]')
+        return [g for gl in self.gll for g in gl.get_games('./game/[@hidden="true"]')]
 
     def get_folders(self):
         '''
         get game folders from gamelist
         '''
-        return [g for g in self.gl.get_folders()]
+        return [f for gl in self.gll for f in gl.get_folders()]
 
     def get_games(self):
         '''
-        get all games in gamelist
+        get all games in all gamelist(s)
         '''
-        return [g for g in self.gl]
+        return [g for gl in self.gll for g in gl]
+
+    def get_favorites(self):
+        '''
+        get games that are in favorites
+        '''
+        return [g for gl in self.gll for g in gl.get_games('./game/[favorite="True"]')]
 
     def get_games_by_id(self, id: str):
         '''
         get games matching specified id
         '''
-        return self.gl.get_games('./game/[@id="{}"]'.format(id))
+        return [g for gl in self.gll for g  in gl.get_games('./game/[@id="{}"]'.format(id))]
